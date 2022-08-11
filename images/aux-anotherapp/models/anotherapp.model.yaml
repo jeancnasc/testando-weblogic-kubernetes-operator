@@ -1,14 +1,4 @@
-# Copyright (c) 2020, 2021, Oracle and/or its affiliates.
-# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
-
-domainInfo:
-    AdminUserName: '@@SECRET:__weblogic-credentials__:username@@'
-    AdminPassword: '@@SECRET:__weblogic-credentials__:password@@'
-    ServerStartMode: 'prod'
-
 topology:
-    Name: '@@ENV:CUSTOM_DOMAIN_NAME@@'
-    AdminServerName: 'admin-server'
     Cluster:
         'another-app':
             DynamicServers:
@@ -18,9 +8,6 @@ topology:
                 MaxDynamicClusterSize: '@@PROP:CLUSTER_SIZE@@'
                 MinDynamicClusterSize: '0'
                 CalculatedListenPorts: false
-    Server:
-        'admin-server':
-            ListenPort: 7001
     ServerTemplate:
         'another-app-template':
             Cluster: 'another-app'

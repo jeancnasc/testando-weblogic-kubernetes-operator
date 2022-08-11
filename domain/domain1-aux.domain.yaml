@@ -71,10 +71,13 @@
       #    'spec.configuration.model.modelHome'
       #    'spec.configuration.model.wdtInstallHome'
       auxiliaryImages:
-      - image: "model-in-image:AUX-v1"
+      - image: "root:v1"
         imagePullPolicy: IfNotPresent
         volume: auxiliaryImageVolume1
-      - image: "model-in-image:AUX-ANOTHER-v1"
+      - image: "app:v1"
+        imagePullPolicy: IfNotPresent
+        volume: auxiliaryImageVolume1
+      - image: "another-app:v1"
         imagePullPolicy: IfNotPresent
         volume: auxiliaryImageVolume1
 
@@ -103,10 +106,10 @@
     replicas: 1
 
     # The desired behavior for starting a specific cluster's member servers
-    clusters:
-    - clusterName: cluster-1
-      serverStartState: "RUNNING"
-      replicas: 2
+    # clusters:
+    # - clusterName: cluster-1
+    #   serverStartState: "RUNNING"
+    #   replicas: 2
 
     # Change the `restartVersion` to force the introspector job to rerun
     # and apply any new model configuration, to also force a subsequent

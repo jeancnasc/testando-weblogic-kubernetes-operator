@@ -1,29 +1,18 @@
 # Copyright (c) 2020, 2021, Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
-
-domainInfo:
-    AdminUserName: '@@SECRET:__weblogic-credentials__:username@@'
-    AdminPassword: '@@SECRET:__weblogic-credentials__:password@@'
-    ServerStartMode: 'prod'
-
 topology:
-    Name: '@@ENV:CUSTOM_DOMAIN_NAME@@'
-    AdminServerName: 'admin-server'
     Cluster:
-        'cluster-1':
+        'app':
             DynamicServers:
-                ServerTemplate:  'cluster-1-template'
-                ServerNamePrefix: 'managed-server'
+                ServerTemplate:  'app-template'
+                ServerNamePrefix: 'app'
                 DynamicClusterSize: '@@PROP:CLUSTER_SIZE@@'
                 MaxDynamicClusterSize: '@@PROP:CLUSTER_SIZE@@'
                 MinDynamicClusterSize: '0'
                 CalculatedListenPorts: false
-    Server:
-        'admin-server':
-            ListenPort: 7001
     ServerTemplate:
-        'cluster-1-template':
-            Cluster: 'cluster-1'
+        'app-template':
+            Cluster: 'app'
             ListenPort: 8001
 
 appDeployments:
@@ -31,21 +20,21 @@ appDeployments:
         myapp:
             SourcePath: 'wlsdeploy/applications/myapp-v1'
             ModuleType: ear
-            Target: 'cluster-1'
+            Target: 'app'
 
 resources:
   SelfTuning:
     MinThreadsConstraint:
       SampleMinThreads:
-        Target: 'cluster-1'
+        Target: 'app'
         Count: 1
     MaxThreadsConstraint:
       SampleMaxThreads:
-        Target: 'cluster-1'
+        Target: 'app'
         Count: 10
     WorkManager:
       SampleWM:
-        Target: 'cluster-1'
+        Target: 'app'
         MinThreadsConstraint: 'SampleMinThreads'
         MaxThreadsConstraint: 'SampleMaxThreads'
   WebAppContainer:
